@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+
+ {% for postL in postL %}
+    <table>
+                <tr style="text-align:center">
+                    <td>{{ postL.id }}</td>
+                    <td>>{{ postL.title }}</td>
+                    <td>{{ postL.writer }}</td>
+                    <td>{{ postL.pub_date}}</td>
+
+                </tr>
+         {% endfor %}
+    </table>
+        {% if postL.has_previous %}
+            <a href="?page=1">맨앞으로</a>
+            <a href="?page={{postL.previous_page_number}}">이전으로</a>
+        {% endif %}
+         <span>{{postL.number}}</span>
+         <span>/</span>
+         <span>{{postL.paginator.num_pages}}</span>
+        {% if postL.has_next %}
+            <a href="?page={{postL.next_page_number}}">다음으로</a>
+            <a href="?page={{postL.paginator.num_pages}}">맨 뒤로</a>
+        {% endif %}
+ {% for comment in comment.all %}
+    <td>{{ comment.post.writer}}</td>
+     <td>{{ comment.comment_contents}}</td>
+     <td>{{ comment.comment_writer}}</td>
+     <td>{{ comment.comment_date}}</td>
+
+ {% endfor %}
+
+</body>
+</html>

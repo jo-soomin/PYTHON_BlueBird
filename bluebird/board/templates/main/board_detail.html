@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+          {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/board_detail.css' %}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+         <script type="text/javascript">
+<!--    $(function(){-->
+<!--        $("#commentButton").click(function(){-->
+<!--            $("#commentDiv").toggle()-->
+<!--        });-->
+<!--    });-->
+
+
+    </script>
+    <title>상세페이지</title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light" id="navbar">
+        {% if user.is_anonymous %}
+            <a class="navbar-brand" href="/">
+        {% endif %}
+      {% if user.is_authenticated %}
+            <a class="navbar-brand" href="{% url 'adminBoard' %}">
+        {% endif %}
+         <img src="{% static 'img/bluebird.png' %}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+          BlueBird
+        </a>
+    </nav>
+    <article>
+    <div id="frame">
+        <table border="1">
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" id="addon-wrapping1">제목</div>
+                </div>
+                    <input type="text" class="form-control" placeholder="제목을 적어주세요" aria-describedby="addon-wrapping" name="title" readonly value="{{ board.title }}">
+            </div>
+
+              <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" id="addon-wrapping3">별칭</div>
+                </div>
+                    <input type="text" class="form-control" placeholder="별칭을 적어주세요" aria-describedby="addon-wrapping" name="writer" readonly value="{{ board.writer }}">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" id="addon-wrapping4">PW</div>
+                </div>
+                    <input type="text" class="form-control" placeholder="비밀번호를 적어주세요" aria-describedby="addon-wrapping" name="pw" readonly value="xxxx">
+            </div>
+
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" id="addon-wrapping2">내용</div>
+                </div>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="18" name="content" placeholder="자신의 속마음을 솔직하게 적어주세요" readonly>{{ board.content }}</textarea>
+            </div>
+        </table>
+
+    </div>
+        {% if user.is_authenticated %}
+    <div id="commentDiv">
+        <form action="{% url 'commentWrite' board.pk %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ board.pk }}">
+              <div class="input-group mb-3" id="commentArea">
+                <textarea class="form-control" id="exampleFormControlTextarea2" aria-label="Recipient's username" aria-describedby="button-addon2" name="comment" rows="7" required></textarea>
+                  <div class="input-group-append">
+                     <button class="btn btn-outline-primary" type="submit" id="button-addon1">댓글달기</button>
+                 </div>
+             </div>
+    </div>
+        {% else %}
+            <div id="commentDiv2">
+              <div class="input-group mb-3" id="commentArea2">
+                <textarea class="form-control" id="exampleFormControlTextarea3" aria-label="Recipient's username" aria-describedby="button-addon2" name="comment" rows="7" readonly></textarea>
+              </div>
+            </div>
+        {% endif %}
+        {% if board.filename %}
+        <div id="filedown">
+            <span>{{ board.filename }}</span><br>
+            <a href="{% static 'file/'%}{{board.filename}}" download>첨부파일다운로드</a>
+        </div>
+        {% endif %}
+        </form>
+      <div id="comments">
+    {% for comment in board.comments.all %}
+          <div id="comment_contents">
+              {{ comment.comment_contents }}{% if user.is_authenticated %}&nbsp;<a href="{% url 'commentDelete' board.id comment.id %}">삭제{% endif %}</a>
+          </div>
+    {% empty %}
+        <div>댓글이 작성되지 않았습니다.</div>
+    {% endfor %}
+      </div>
+    <div id="write">
+        {% if user.is_anonymous %}
+            <div id="back"><button type="button" class="btn btn-outline-primary" onclick="location.href='/'">뒤로가기</button></div>
+        {% endif %}
+         {% if user.is_authenticated %}
+            <div id="adminBack"><button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'adminBoardBack' %}'">뒤로가기</button></div>
+<!--        <div id="commentButton"><button type="button" class="btn btn-outline-primary">댓글달기</button></div>-->
+        {% endif %}
+        {% if user.is_anonymous %}
+            <div id="remove"><button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'delete' board.id %}'">삭제하기</button></div>
+         {% endif %}
+        {% if user.is_authenticated %}
+            <div id="adminRemove"><button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'adminDelete' board.id %}'">삭제하기</button></div>
+        {% endif %}
+         {% if user.is_anonymous %}
+            <div id="updateRes"><button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'update' board.id %}'">수정하기</button></div>
+        {% endif %}
+
+
+     </div>
+   </article>
+     <div >
+        <nav class="navbar navbar-light bg-light" id="footer">
+         <div id="footText">마음속 이야기를 들려주세요</div>
+        </nav>
+    </div>
+    </form>
+</body>
+</html>
+
+
+<!-- <h1>detail page</h1>-->
+<!--              <h1>{{ board.title }}</h1>-->
+<!--              <p>{{ board.content }}</p>-->
+<!--              <a href="{% url 'boar' %}">돌아가기</a>-->
+<!--              <a href="{% url 'update' board.id %}">수정하기</a>-->
+<!--              <a href="{% url 'delete' board.id %}">삭제하기</a>-->

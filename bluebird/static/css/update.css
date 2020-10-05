@@ -1,0 +1,141 @@
+@media all and ( min-width: 901px ) {
+body{
+    font-family: 'NanumSquareRound',sans-serif;
+}
+.navbar-brand{
+    margin-left: 46%
+}
+
+#navbar{
+    width:100%;
+}
+
+#frame{
+    overflow:auto;
+    position: static;
+    top: 25%;
+    left: 23%;
+    border: solid 1px gray;
+    width: 55%;
+    height: auto;
+    margin-left:22%;
+    margin-top:3%;
+    background-color:white;
+
+}
+
+#footer{
+    display: none;
+    position: absolute;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 100%;
+
+	padding: 5px 0;
+}
+#footText{
+    vertical-align:middle;
+    width:100%;
+    line-height:50px;
+    color:gray;
+    text-align: center;
+
+}
+
+
+#write{
+    text-align:right;
+    position: static;
+    left: 23%;
+    width: 55%;
+    margin-left:22%;
+    margin-top:10px;
+}
+#back{
+    position:relative;
+    float:left;
+}
+#writeRes{
+    position:relative;
+    float:right;
+}
+#remove{
+    position:relative;
+    float:right;
+}
+
+}
+@media all and ( max-width: 900px ){
+.navbar-brand{
+
+}
+
+#navbar{
+    width:100%;
+}
+
+#frame{
+    overflow:auto;
+    position: static;
+    top: 25%;
+    left: 23%;
+    border: solid 1px gray;
+    width: 96%;
+    height: 524px;
+    margin-left:2%;
+    margin-top:3%;
+    background-color:white;
+
+}
+
+#footer{
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 100%;
+
+	padding: 5px 0;
+}
+#footText{
+    vertical-align:middle;
+    width:100%;
+    line-height:50px;
+    color:gray;
+    text-align: center;
+
+}
+
+
+#write{
+    text-align:right;
+    position: static;
+    left: 23%;
+    width: 96%;
+    margin-left:2%;
+    margin-top:10px;
+}
+#back{
+    position:relative;
+    float:left;
+}
+#writeRes{
+    position:relative;
+    float:right;
+}
+#remove{
+    position:relative;
+    float:right;
+}
+body{
+    height:700px;
+    font-family: 'NanumSquareRound',sans-serif;
+}
+
+}

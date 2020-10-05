@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/update.css' %}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+      window.onload=function(){
+    $("#pw").keyup(function(){
+    var pw = document.getElementById('pw');
+    pw.value = pw.value.toLowerCase();
+    });
+    }
+     function chkPW(){
+      var pattern1 = /[0-9]/;
+      var pattern2 = /[a-zA-Z]/;
+      var pattern3 = /[~!@\#$%<>^&*]/;
+      var regex= /[^0-9]/g;
+      var pw = document.getElementById('pw').value;
+    if(!pattern1.test(pw)||!pattern2.test(pw)||!pattern3.test(pw)) {
+         swal("패스워드는 숫자,영어,특수문자를 적어도 1개씩 포함시켜주세요");
+         document.getElementById('pw').value='';
+
+	     return false;
+    }else if(pw.length < 6 || pw.length> 10){
+        swal("6자리 이상 10자리 이하의 숫자를 입력해주세요.");
+        return false;
+    }
+    return true;
+
+}
+    </script>
+    <title>글쓰기</title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light" id="navbar">
+      <a class="navbar-brand" href="/">
+         <img src="{% static 'img/bluebird.png' %}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+          BlueBird
+        </a>
+        {% if user.is_anonymous %}
+          <button type="button" class="btn btn-outline-primary" onclick="location.href='login'">관리자 로그인</button>
+        {% endif %}
+        {% if user.is_authenticated %}
+          <button type="button" class="btn btn-outline-primary" onclick="location.href='logout'">로그아웃</button>
+          {% endif %}
+    </nav>
+    <div id="frame">
+         <form method="post" onsubmit="return chkPW();">
+              {% csrf_token %}
+        <table border="1">
+
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" id="addon-wrapping1">제목</div>
+                </div>
+                    <input type="text" class="form-control" placeholder="제목을 적어주세요" aria-describedby="addon-wrapping" name="title" value="{{ board.title }}" readonly>
+            </div>
+
+              <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" id="addon-wrapping3">별칭</div>
+                </div>
+                    <input type="text" class="form-control" placeholder="별칭을 적어주세요" aria-describedby="addon-wrapping" name="writer" value="{{ board.writer }}" required>
+                <div class="input-group-prepend">
+                    <div class="input-group-text" id="addon-wrapping4">PW</div>
+                </div>
+                    <input type="password" class="form-control" placeholder="숫자,영어,특수문자를 포함하여 6 ~ 10자리를 입력해주세요" aria-describedby="addon-wrapping" name="pw" id="pw" minlength="6" maxlength="10" required>
+            </div>
+
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" id="addon-wrapping2">내용</div>
+                </div>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="18" name="content" placeholder="자신의 속마음을 솔직하게 적어주세요" required>{{ board.content }}</textarea>
+            </div>
+        </table>
+
+    </div>
+    <div id="write">
+            <div id="back"><button type="button" class="btn btn-outline-primary" onclick="location.href='/'">뒤로가기</button></div>
+            <div id="writeRes"><input type="submit" value="수정하기" class="btn btn-outline-primary" ></div>
+
+
+     </div>
+     <div class="fixed-bottom">
+        <nav class="navbar navbar-light bg-light" id="footer">
+         <div id="footText">마음속 이야기를 들려주세요</div>
+        </nav>
+    </div>
+    </form>
+
+</body>
+</html>

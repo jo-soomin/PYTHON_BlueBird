@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+    <meta charset="UTF-8">
+    <title>BlueBird</title>
+<head>
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+<!--    function test(){-->
+<!--        window.open('login', 'asd', "width=500,height=600");-->
+<!--    }-->
+
+    </script>
+
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light" id="navbar">
+      <a class="navbar-brand" href="/">
+         <img src="{% static 'img/bluebird.png' %}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+          BlueBird
+        </a>
+        {% if user.is_anonymous %}
+          <button type="button" class="btn btn-outline-primary" onclick="location.href='login'">관리자 로그인</button>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <button type="button" class="btn btn-outline-primary" onclick="location.href='logout'">로그아웃</button>
+          {% endif %}
+    </nav>
+<!--    <a href="test">test</a>-->
+<!--    <a href="login">로그인</a>-->
+<!--    <a href="logout">로그아웃</a>-->
+<!--    <a href="boar">게시판가즈아~~!!</a>-->
+<!--    {% if user.is_authenticated %}-->
+<!--    <a href="create">글쓰기</a>-->
+<!--    {% endif %}-->
+<!--    <a href="signup">회원가입</a>-->
+    <div id="introduction">
+
+        "<span id="bluebird">파랑새</span>"는 대표이사님과의 직접 소통 창구입니다.<br>
+                업무상 개선 또는 불편한 사항이 있으신 경우 가능한 자세하게 작성해 주시면 감사하겠습니다.<br>
+                    작성하신 글은 비밀이 보장되며, 최대한 빠른 답변을 드리겠습니다.<br>
+    </div>
+      {% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{ message.tags }}" id="messages"{% endif %}>
+        {{ message.message }}
+    </div>
+    {% endfor %}
+</div>
+    {% endif %}
+<div id="frame">
+   <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col" id="num">글번호</th>
+      <th scope="col">글제목</th>
+      <th scope="col" id="writer">작성자</th>
+      <th scope="col" id="date">작성일</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for postL in postL %}
+                <tr>
+                    <td id="tdnum">{{ postL.id }}</td>
+                    <td id="tdtitle"'><a href="{% url 'pwConfirm' postL.id %}">개선 및 건의사항 입니다.</a>
+                        {% if postL.comments.count %} 
+		<br>
+		<span id="answerConfirm">[ 답변완료 ]</span>                      
+                        {% endif %}
+                    </td>
+                    <td id="tdwriter">{{ postL.writer }}</td>
+                    <td id="tddate">{{ postL.pub_date | date:'y.n.d H:i'}}</td>
+
+                </tr>
+         {% endfor %}
+    </tbody>
+</table>
+    
+</div>
+<div class="page_number">
+        {% if postL.has_previous %}
+          <button type="button" class="btn btn-outline-primary" onclick="location.href='?page=1'"><<</button>
+          <button type="button" class="btn btn-outline-primary" onclick="location.href='?page={{postL.previous_page_number}}'"><</button>
+        {% else %}
+        <button type="button" class="btn btn-outline-primary" disabled="disabled" onclick="location.href='#'"><<</button>
+        <button type="button" class="btn btn-outline-primary" disabled="disabled" onclick="location.href='#'"><</button>
+
+        {% endif %}
+         &nbsp;
+         <span>{{postL.number}}</span>
+         &nbsp;<span>/</span>&nbsp;
+         <span>{{postL.paginator.num_pages}}</span>
+         &nbsp;
+
+        {% if postL.has_next %}
+        <button type="button" class="btn btn-outline-primary" onclick="location.href='?page={{postL.next_page_number}}'">></button>
+        <button type="button" class="btn btn-outline-primary" onclick="location.href='?page={{postL.paginator.num_pages}}'">>></button>
+        {% else %}
+        <button type="button" class="btn btn-outline-primary" disabled="disabled" onclick="location.href='#'">></button>
+        <button type="button" class="btn btn-outline-primary" disabled="disabled" onclick="location.href='#'">>></button>
+         {% endif %}
+
+    </div>
+     <div id="writeDiv">
+         {% if user.is_authenticated %}
+            <button type="button" id="adminBoard" class="btn btn-outline-primary" onclick="location.href='{% url 'adminBoard' %}'">게시글관리</button>
+         {% endif %}
+            <button type="button" id="write" class="btn btn-outline-primary" onclick="location.href='create'">글쓰기</button>
+         
+     </div>
+<div class="fixed-bottom" id="bottom">
+        <nav class="navbar navbar-light bg-light" id="footer">
+         <div id="footText">마음속 이야기를 들려주세요</div>
+        </nav>
+    </div>
+  
+
+</body>
+</html>

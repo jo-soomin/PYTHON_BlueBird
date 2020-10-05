@@ -1,0 +1,93 @@
+@media all and ( min-width: 901px ) {
+.navbar-brand{
+    margin-left: 46%
+}
+#navbar{
+    width:100%;
+}
+
+#imgdiv{
+    margin-top: 10%;
+}
+#frame{
+    overflow:auto;
+    position: static;
+    width: 30%;
+    height: 350px;
+    margin-left:35%;
+    margin-top:10%;
+    background-color:#F5F5F5;
+}
+
+#form-group{
+
+    width:100%;
+
+}
+
+body{
+    background-color:#F5F5F5;
+    font-family: 'NanumSquareRound',sans-serif;
+}
+
+#addon-wrapping{
+    width:50px;
+}
+#addon-wrapping2{
+    width:50px;
+}
+#sub{
+margin-top:1%;
+    text-align:right;
+}
+#emailHelp{
+    position:fixed;
+}
+}
+
+@media all and ( max-width: 900px ){
+.navbar-brand{
+    margin-left: 30%
+}
+#navbar{
+    width:100%;
+}
+
+#imgdiv{
+    margin-top: 10%;
+}
+#frame{
+    overflow:auto;
+    position: static;
+    width: 94%;
+    height: 100px;
+    margin-left:3%;
+    margin-top:25%;
+    background-color:#F5F5F5;
+}
+
+#form-group{
+
+    width:100%;
+
+}
+
+body{
+    background-color:#F5F5F5;
+    font-family: 'NanumSquareRound',sans-serif;
+}
+
+#addon-wrapping{
+    width:50px;
+}
+#addon-wrapping2{
+    width:50px;
+}
+#sub{
+margin-top:1%;
+    text-align:right;
+}
+#emailHelp{
+    position:fixed;
+}
+}

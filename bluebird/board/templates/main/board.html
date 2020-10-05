@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판</title>
+</head>
+<body>
+    <h1>게시판 페이지</h1>
+
+
+ <table border="1">
+                <tr>
+                    <th>글 번호</th>
+                    <th>제  목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                </tr>
+                 {% for boars in boars.all %}
+                <tr style="text-align:center">
+                    <td>{{ boars.id }}</td>
+                    <td><a href="{% url 'board_detail' boars.id %}">{{ boars.title }}</a></td></td>
+                    <td>{{ boars.writer }}</td>
+                    <td>{{ boars.pub_date}}</td>
+                </tr>
+         {% endfor %}
+            </table>
+              {% if user.is_authenticated %}
+                <a href="create">글쓰기</a>
+                <a href="logout">로그아웃</a>
+                 {% endif %}
+
+
+
+</body>
+</html>
