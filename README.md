@@ -9,3 +9,6 @@ python, django를 활용한 게시판
 6. css 참조 : BootStrap
 7. font : 네이버 나눔글꼴
 8. 소요기간 : 3주
+<div>
+  <img src="https://user-images.githubusercontent.com/59190867/98082861-c7d14e00-1ebc-11eb-97df-57423ecc0ed7.png" width="90%"></img>  
+</div
